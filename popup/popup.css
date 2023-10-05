@@ -1,0 +1,20 @@
+h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Style the button */
+  #scrapeButton {
+    background-color: #0073e6;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Style the job information container */
+  #jobInfoContainer {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #555;
+  }
