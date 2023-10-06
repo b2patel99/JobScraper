@@ -4,8 +4,7 @@
   "version": "1.0",
   "description": "Scrape job postings and create QR codes",
   "permissions": [
-    "activeTab",
-    "scripting"
+    "activeTab", "scripting"
   ],
   "action": {
     "default_popup": "popup/popup.html",

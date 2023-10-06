@@ -12,6 +12,7 @@ function getSiteConfig(url) {
 
 // Get the site configuration and initiate scraping when the extension button is clicked
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
+    console.log("message received from background/popup");
     if (request.action === 'startScraping') {
         const siteConfig = getSiteConfig(window.location.href);
         if (siteConfig) {
@@ -39,6 +40,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
                 };
                 // Send the scraped data to popup.js
                 chrome.runtime.sendMessage({ action: 'scrapedData', data: scrapedData });
+                console.log(scrapedData);
             } catch (error) {
                 console.error('Scraping error:', error);
                 // Send an error message to popup.js
