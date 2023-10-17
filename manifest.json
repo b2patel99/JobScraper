@@ -4,10 +4,10 @@
   "version": "1.0",
   "description": "Scrape job postings and create QR codes",
   "permissions": [
-    "activeTab", "scripting"
+    "activeTab", "scripting", "tabs"
   ],
   "action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -22,14 +22,16 @@
   "content_scripts": [
       {
           "matches": ["https://www.indeed.com/*"],
-          "js": ["content/content.js"]
+          "js": ["content.js"],
+          "module": "none"
       },
       {
           "matches": ["https://www.linkedin.com/jobs/*"],
-          "js": ["content/content.js"]
+          "js": ["content.js"],
+          "module": "none"
       }
   ],
   "background": {
-    "service_worker": "background/background.js"
+    "service_worker": "background.js"
   }
 }
