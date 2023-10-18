@@ -1,6 +1,6 @@
 //import { indeedConfig, linkedinConfig } from './config.js';
 
-const puppeteer = require('puppeteer');
+//const puppeteer = require('puppeteer');
 
 function getSiteConfig(url) {
     if (/indeed\.com/.test(url)) {
@@ -13,45 +13,54 @@ function getSiteConfig(url) {
 console.log("reached content");
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'initiateScraping') {
-        const config = getSiteConfig(window.location.href)
         const url = window.location.href;
-        const data = scrapeBoard(config, url);
-        sendResponse(data);
+        const config = getSiteConfig(window.location.href)
+        //const data = scrapeBoard(config, url);
+        sendResponse(config);
     }
  });
 
-function scrapeBoard(config, url) {
-    fetch(url)
-    .then(response => {
-        if (response.ok) {
-            return response.text(); // Extract the response body as text
-        } else {
-            console.error('Failed to fetch page. Status:', response.status);
-        }
-    })
-    .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        // Define your scraping logic using DOM methods
-        const jobTitle = doc.querySelector('body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div > div.p5 > div.display-flex.justify-space-between.flex-wrap > h1').textContent;
-        const company = doc.querySelector('body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div > div.p5 > div.job-details-jobs-unified-top-card__primary-description > div > a').textContent;
-        const location = doc.querySelector('body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div > div.p5 > div.job-details-jobs-unified-top-card__primary-description > div > span:nth-child(2)').textContent;
-        const description = doc.querySelector('#job-details').textContent;
-
-        const scrapedData = {
+function scrapeBoard(config,url) {
+    const scrapedData = {
             Title: jobTitle,
             Company: company,
             Location: location,
             Description: description,
-        };
-
-        console.log(scrapedData);
-    })
-    .catch(error => {
-        console.error('Error during fetch request:', error);
-    });
+    };
+    return data;
 }
+// function scrapeBoard(config, url) {
+//     fetch(url)
+//     .then(response => {
+//         if (response.ok) {
+//             return response.text(); // Extract the response body as text
+//         } else {
+//             console.error('Failed to fetch page. Status:', response.status);
+//         }
+//     })
+//     .then(html => {
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(html, 'text/html');
+
+//         // Define your scraping logic using DOM methods
+//         const jobTitle = doc.querySelector('body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div > div.p5 > div.display-flex.justify-space-between.flex-wrap > h1').textContent;
+//         const company = doc.querySelector('body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div > div.p5 > div.job-details-jobs-unified-top-card__primary-description > div > a').textContent;
+//         const location = doc.querySelector('body > div.application-outlet > div.authentication-outlet > div > div.job-view-layout.jobs-details > div.grid > div > div:nth-child(1) > div > div > div.p5 > div.job-details-jobs-unified-top-card__primary-description > div > span:nth-child(2)').textContent;
+//         const description = doc.querySelector('#job-details').textContent;
+
+//         const scrapedData = {
+//             Title: jobTitle,
+//             Company: company,
+//             Location: location,
+//             Description: description,
+//         };
+
+//         console.log(scrapedData);
+//     })
+//     .catch(error => {
+//         console.error('Error during fetch request:', error);
+//     });
+// }
 
 
 
