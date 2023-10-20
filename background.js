@@ -6,7 +6,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             if (tabs.length > 0) {
                 const activeTab = tabs[0];
                 chrome.tabs.sendMessage(activeTab.id, { action: 'initiateScraping' }, function (response){
+                    const data = response;
                     console.log("Response from content script:", response);
+                    toPopup();
                 });
                 console.log("background sent message to content");
             }
@@ -14,5 +16,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
  });
 
+ function toPopup() {
+    chrome.runtime.sendMessage({ data: "Hello from the background!" });
+
+ }
 
 

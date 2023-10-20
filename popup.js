@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
  });
 
+// Listen for messages sent from the background script
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    // Handle the message received
+    console.log("Message received in popup.js:", message.data);
+    
+    // You can now use the message data in your popup script
+});
+  
+
+
 function displayScrapedData(data) {
     // Retrieve a reference to the HTML element with the ID "result"
     const resultDiv = document.getElementById('result');
