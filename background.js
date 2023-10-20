@@ -7,7 +7,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 const activeTab = tabs[0];
                 chrome.tabs.sendMessage(activeTab.id, { action: 'initiateScraping' }, function (response){
                     const data = response;
-                    console.log("Response from content script:", response);
                     toPopup(data);
                 });
                 console.log("background sent message to content");

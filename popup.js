@@ -8,10 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Listen for messages sent from the background script
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    // Handle the message received
-    console.log("Message received in popup.js:", message.data);
-    
-    // You can now use the message data in your popup script
+    //displayScrapedData(message.data);
+    generateQRCode(message.data);
+    console.log(message.data);
 });
   
 
@@ -33,6 +32,8 @@ function displayScrapedData(data) {
     const descriptionElement = document.createElement('p');
     descriptionElement.textContent = 'Description: ' + data.Description;
 
+    const linkElement = document.createElement('p');
+    linkElement.textContent = 'Link: ' + data.Url;
     // Clear the content of the "result" div before adding new data
     resultDiv.innerHTML = '';
 
@@ -41,23 +42,24 @@ function displayScrapedData(data) {
     resultDiv.appendChild(companyElement);
     resultDiv.appendChild(locationElement);
     resultDiv.appendChild(descriptionElement);
+    resultDiv.appendChild(linkElement);
 }
 
+function generateQRCode(data) {
+    const qrCodeDiv = document.getElementById('qrcode');
+    
+    // Create a new div element to hold the QR code
+    const newQRCodeDiv = document.createElement('div');
+    
+    // Generate the QR code in the new div
+    let code = new QRCode(newQRCodeDiv, {
+        text: data,
+        width: 128,
+        height: 128
+    });
+    
+    // Replace the existing QR code div with the new one
+    qrCodeDiv.innerHTML = '';
+    qrCodeDiv.appendChild(newQRCodeDiv);
+}
 
-
-
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     const scrapeButton = document.getElementById('scrapeButton');
-//     scrapeButton.addEventListener('click', function() {
-//         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-//             const activeTab = tabs[0];
-//             if (activeTab) {
-//                 chrome.scripting.executeScript({
-//                     target: { tabId: activeTab.id },
-//                     function: initiateScraping
-//                 });
-//             }
-//         });
-//     });
-// });

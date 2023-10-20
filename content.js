@@ -1,13 +1,14 @@
 console.log("reached content");
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'initiateScraping') {
-        const config = getSiteConfig(window.location.href)
-        const data = scrapeBoard(config);
+        const url = window.location.href;
+        const config = getSiteConfig(url)
+        const data = scrapeBoard(config, url);
         sendResponse(data);
     }
  });
 
-function scrapeBoard(config) {
+function scrapeBoard(config, url) {
     const titleElement = document.querySelector(config.titleSelector);
     const jobTitle = titleElement.textContent.trim();
     const descriptionElement = document.querySelector(config.descriptionSelector);
@@ -32,6 +33,7 @@ function scrapeBoard(config) {
         Company: company,
         Location: location,
         Description: description,
+        Url: url, 
     }
     return scrapedData;
 }
