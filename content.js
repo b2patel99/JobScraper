@@ -10,12 +10,23 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 function scrapeBoard(config) {
     const titleElement = document.querySelector(config.titleSelector);
     const jobTitle = titleElement.textContent.trim();
-    const companyElement = document.querySelector(config.companySelector);
-    const company = companyElement.textContent.trim();
-    const locationElement = document.querySelector(config.locationSelector);
-    const location = locationElement.textContent.trim();
     const descriptionElement = document.querySelector(config.descriptionSelector);
     const description = descriptionElement.textContent.trim();
+    let company = "";
+    let location = "";
+    if (config === linkedinConfig) {
+        const headingElement = document.querySelector(config.headingSelector);
+        const headingContent = headingElement.textContent.trim();
+        const parts = headingContent.split('·');
+        company = parts[0].trim();
+        let locationTrim = parts[1].trim();
+        location = locationTrim.split('  ')[0].trim();
+    } else {
+        const companyElement = document.querySelector(config.companySelector);
+        company = companyElement.textContent.trim();
+        const locationElement = document.querySelector(config.locationSelector);
+        location = locationElement.textContent.trim();
+    }
     const scrapedData = {
         Title: jobTitle,
         Company: company,
@@ -43,8 +54,8 @@ const indeedConfig = {
 
 const linkedinConfig = {
     titleSelector: '.t-24.t-bold.job-details-jobs-unified-top-card__job-title', 
-    companySelector: '/html/body/div[5]/div[3]/div/div[1]/div[1]/div/div[1]/div/div/div[1]/div[2]/div/a/text()',
-    locationSelector: '/html/body/div[5]/div[3]/div/div[1]/div[1]/div/div[1]/div/div/div[1]/div[2]/div/text()',       
-    descriptionSelector: '//*[@id="job-details"]', 
+    headingSelector: '.job-details-jobs-unified-top-card__primary-description',
+    locationSelector: '.job-details-jobs-unified-top-card__primary-description',       
+    descriptionSelector: '#job-details', 
 };
 
